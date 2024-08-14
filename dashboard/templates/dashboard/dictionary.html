@@ -1,0 +1,60 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block content %}
+<section class="container mx-auto p-4 text-center">
+    <h2 class="text-3xl font-bold mb-4">Dictionary</h2>
+   
+    
+    <form action="" method="post" class="mb-8">
+        {% csrf_token %}
+        {{ form}}
+        <br>
+        <button type="submit" class="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700">Submit</button>
+    </form>
+
+    <div class="content-section mt-10">
+        {% if input %}
+            <div class="bg-gray-100 p-6 rounded-lg shadow-lg">
+                <h2 class="text-2xl font-semibold mb-2">{{ input }}</h2>
+                
+                {% if audio %}
+                    <div class="mb-4">
+                        <audio id="player" src="{{ audio }}"></audio>
+                        <button onclick="document.getElementById('player').play()" class="text-blue-600 hover:text-blue-800">
+                            <i class='fa fa-volume-up fa-2x'></i>
+                        </button>
+                    </div>
+                {% endif %}
+                
+                <hr class="my-4">
+                
+                <div class="definition-section mb-4">
+                    {% if definition %}
+                        <h4 class="text-xl font-semibold mb-1">Definition:</h4>
+                        <p class="text-lg">{{ definition }}</p>
+                    {% endif %}
+                    {% if example %}
+                        <h4 class="text-xl font-semibold mt-4 mb-1">Example:</h4>
+                        <p class="text-lg">{{ example }}</p>
+                    {% endif %}
+                </div>
+
+                <hr class="my-4">
+
+                {% if synonyms %}
+                    <div class="synonyms-section">
+                        <h4 class="text-xl font-semibold mb-2">Synonyms:</h4>
+                        <ul class="list-disc pl-6">
+                            {% for synonym in synonyms %}
+                                <li class="text-lg">{{ synonym }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+        {% else %}
+            <h2 class="text-2xl font-semibold text-red-600 mt-6">Sorry, API request limit exceeded or the word was not found.</h2>
+        {% endif %}
+    </div>
+</section>
+{% endblock content %}

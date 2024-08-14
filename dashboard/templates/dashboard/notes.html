@@ -1,0 +1,57 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="w-full max-w-full overflow-x-hidden">
+    <div class="px-2 sm:px-4 py-4 sm:py-6">
+        <div class="flex flex-col lg:flex-row lg:space-x-4">
+            <!-- Notes Grid -->
+            <div class="w-full lg:w-2/3 xl:w-3/4 mb-4 lg:mb-0">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+                    {% for note in notes %}
+                    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                        <a href="{% url 'notes-detail' note.id %}" class="block">
+                            <div class="bg-gray-200 px-2 sm:px-3 py-2 text-base sm:text-lg font-semibold border-b border-blue-300 truncate">
+                                {{ note.title }}
+                            </div>
+                            <div class="p-2 sm:p-3 text-sm sm:text-base text-gray-700 border-t border-b border-blue-300">
+                                {{ note.desription | slice:"0:50" }}...
+                            </div>
+                            <div class="bg-gray-100 px-2 sm:px-3 py-2 flex justify-end border-t border-blue-300">
+                                <a href="{% url 'delete-note' note.id %}" class="text-red-600 hover:text-red-800">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Create Notes Form Section -->
+            <div class="w-full lg:w-1/3 xl:w-1/4">
+                <form method="POST" class="bg-white shadow-md rounded-lg p-3 sm:p-4 lg:sticky lg:top-6">
+                    {% csrf_token %}
+                    <fieldset class="mb-3 sm:mb-4">
+                        <legend class="text-base sm:text-lg font-semibold text-gray-800 border-b pb-2 mb-3">Create Notes</legend>
+                    </fieldset>
+                    <div class="space-y-3">
+                        {% for field in form %}
+                        <div class="w-full">
+                            <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">{{ field.label }}</label>
+                            {{ field }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="mt-3 sm:mt-4">
+                        <button type="submit" class="w-full bg-blue-500 text-white py-2 px-3 rounded-md text-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                            Create
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

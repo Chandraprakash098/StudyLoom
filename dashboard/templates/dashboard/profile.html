@@ -1,0 +1,110 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="text-center py-8">
+    <div class="container mx-auto px-4">
+
+        <!-- ToDos Section -->
+        {% if not todos_done %}
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Due ToDos</h2>
+            <div class="overflow-x-auto">
+                <table class="table-auto w-full text-left border-collapse">
+                    <thead class="bg-gray-800 text-white">
+                        <tr>
+                            <th scope="col" class="px-4 py-2">#</th>
+                            <th scope="col" class="px-4 py-2">Title</th>
+                            <th scope="col" class="px-4 py-2">Status</th>
+                            <th scope="col" class="px-4 py-2">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-gray-200 text-gray-800">
+                        {% for todo in todos %}
+                        <tr class="border-b border-gray-300 hover:bg-gray-100">
+                            <th scope="row" class="px-4 py-2">{{ forloop.counter }}</th>
+                            <td class="px-4 py-2">{{ todo.title }}</td>
+                            <td class="px-4 py-2">
+                                <!-- Update form for marking a todo as completed -->
+                                <form method="POST" action="{% url 'update-todo' todo.id %}">
+                                    {% csrf_token %}
+                                    <input 
+                                        class="form-check-input h-5 w-5 text-indigo-600" 
+                                        type="checkbox" 
+                                        name="is_finished"
+                                        {% if todo.is_finished %}checked{% endif %} 
+                                        onchange="this.form.submit()">
+                                    <label class="ml-2 text-indigo-600 cursor-pointer">Mark as Completed</label>
+                                </form>
+                            </td>
+                            <td class="px-4 py-2">
+                                <a href="{% url 'delete-todo' todo.id %}" class="text-red-500 hover:text-red-700">
+                                    <i class="fa fa-trash fa-2x"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <h3 class="text-xl font-semibold text-green-600 mt-4">All ToDos are completed!!!!</h3>
+        {% endif %}
+        <a href="{% url 'todo' %}" class="btn btn-danger mt-4 inline-block bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">To Do</a>
+
+        <br><br>
+
+        <!-- Homeworks Section -->
+        {% if not homework_done %}
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Due Homeworks</h2>
+            <div class="overflow-x-auto">
+                <table class="table-auto w-full text-left border-collapse">
+                    <thead class="bg-gray-800 text-white">
+                        <tr>
+                            <th scope="col" class="px-4 py-2">#</th>
+                            <th scope="col" class="px-4 py-2">Subject</th>
+                            <th scope="col" class="px-4 py-2">Title</th>
+                            <th scope="col" class="px-4 py-2">Description</th>
+                            <th scope="col" class="px-4 py-2">Due</th>
+                            <th scope="col" class="px-4 py-2">Status</th>
+                            <th scope="col" class="px-4 py-2">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-gray-200 text-gray-800">
+                        {% for homework in homeworks %}
+                        <tr class="border-b border-gray-300 hover:bg-gray-100">
+                            <th scope="row" class="px-4 py-2">{{ forloop.counter }}</th>
+                            <td class="px-4 py-2">{{ homework.subject }}</td>
+                            <td class="px-4 py-2">{{ homework.title }}</td>
+                            <td class="px-4 py-2">{{ homework.desription }}</td>
+                            <td class="px-4 py-2">{{ homework.due }}</td>
+                            <td class="px-4 py-2">
+                                <!-- Update form for marking a homework as completed -->
+                                <form method="POST" action="{% url 'update-homework' homework.id %}">
+                                    {% csrf_token %}
+                                    <input 
+                                        class="form-check-input h-5 w-5 text-indigo-600" 
+                                        type="checkbox" 
+                                        name="is_finished"
+                                        {% if homework.is_finished %}checked{% endif %} 
+                                        onchange="this.form.submit()">
+                                    <label class="ml-2 text-indigo-600 cursor-pointer">Mark as Completed</label>
+                                </form>
+                            </td>
+                            <td class="px-4 py-2">
+                                <a href="{% url 'delete-homework' homework.id %}" class="text-red-500 hover:text-red-700">
+                                    <i class="fa fa-trash fa-2x"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <h3 class="text-xl font-semibold text-green-600 mt-4">All Homeworks are completed!!!!</h3>
+        {% endif %}
+        <a href="{% url 'homework' %}" class="btn btn-danger mt-4 inline-block bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">Homeworks</a>
+
+    </div>
+</section>
+{% endblock content %}

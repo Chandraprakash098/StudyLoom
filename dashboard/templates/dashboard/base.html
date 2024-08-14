@@ -1,0 +1,125 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-gradient-to-br from-indigo-500 to-purple-600">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Student Study Portal{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        .hover-lift {
+            transition: transform 0.3s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col">
+    <header class="glassmorphism fixed w-full z-10" x-data="{ open: false, optionsOpen: false }">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="{% url 'home' %}" class="flex items-center">
+                        <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                        <span class="ml-2 text-white font-bold text-xl">StudyLoom</span>
+                    </a>
+                </div>
+                <div class="flex md:hidden">
+                    <button @click="open = !open" class="text-white">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="hidden md:flex md:items-center md:space-x-4">
+                    <a href="{% url 'home' %}" class="text-gray-300 hover:bg-indigo-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium hover-lift">Home</a>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'profile' %}" class="text-gray-300 hover:bg-indigo-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium hover-lift">Profile</a>
+                        <div class="relative group">
+                            <button @click="optionsOpen = !optionsOpen" class="text-gray-300 hover:bg-indigo-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium hover-lift">Options</button>
+                            <div x-show="optionsOpen" @click.away="optionsOpen = false" class="absolute mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                                <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                                    <a href="{% url 'books' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Books</a>
+                                    <a href="{% url 'wiki' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Wikipedia</a>
+                                    <a href="{% url 'dictionary' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Dictionary</a>
+                                    <a href="{% url 'youtube' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Youtube</a>
+                                    <a href="{% url 'todo' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">To-do</a>
+                                    <a href="{% url 'homework' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Homework</a>
+                                    <a href="{% url 'notes' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Notes</a>
+                                    <a href="{% url 'conversion' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Conversion</a>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{% url 'logout' %}" class="text-gray-300 hover:bg-indigo-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium hover-lift">Logout</a>
+                    {% else %}
+                        <a href="{% url 'register' %}" class="text-gray-300 hover:bg-indigo-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium hover-lift">Register</a>
+                        <a href="{% url 'login' %}" class="text-gray-300 hover:bg-indigo-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium hover-lift">Login</a>
+                    {% endif %}
+                </div>
+            </div>
+            <!-- Mobile Menu -->
+            <div x-show="open" @click.away="open = false" class="md:hidden">
+                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                    <a href="{% url 'home' %}" class="text-gray-300 hover:bg-indigo-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium hover-lift">Home</a>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'profile' %}" class="text-gray-300 hover:bg-indigo-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium hover-lift">Profile</a>
+                        <button @click="optionsOpen = !optionsOpen" class="text-gray-300 hover:bg-indigo-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium hover-lift w-full text-left">Options</button>
+                        <div x-show="optionsOpen" class="pl-4">
+                            <a href="{% url 'books' %}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-indigo-700 hover:text-white" role="menuitem">Books</a>
+                            <a href="{% url 'wiki' %}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-indigo-700 hover:text-white" role="menuitem">Wikipedia</a>
+                            <a href="{% url 'dictionary' %}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-indigo-700 hover:text-white" role="menuitem">Dictionary</a>
+                            <a href="{% url 'youtube' %}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-indigo-700 hover:text-white" role="menuitem">Youtube</a>
+                            <a href="{% url 'todo' %}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-indigo-700 hover:text-white" role="menuitem">To-do</a>
+                            <a href="{% url 'homework' %}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-indigo-700 hover:text-white" role="menuitem">Homework</a>
+                            <a href="{% url 'notes' %}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-indigo-700 hover:text-white" role="menuitem">Notes</a>
+                            <a href="{% url 'conversion' %}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-indigo-700 hover:text-white" role="menuitem">Conversion</a>
+                        </div>
+                        <a href="{% url 'logout' %}" class="text-gray-300 hover:bg-indigo-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium hover-lift">Logout</a>
+                    {% else %}
+                        <a href="{% url 'register' %}" class="text-gray-300 hover:bg-indigo-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium hover-lift">Register</a>
+                        <a href="{% url 'login' %}" class="text-gray-300 hover:bg-indigo-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium hover-lift">Login</a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-1 mt-16 p-4">
+        {% if messages %}
+            {% for msg in messages %}
+                <div class="alert alert-{{msg.tags}} bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4" role="alert">
+                    <p>{{msg}}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}
+        <!-- Main content will be inserted here -->
+        {% endblock content %}
+    </main>
+
+    <footer class="bg-gray-800 text-white py-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <p>&copy; 2024 Student Study Portal. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

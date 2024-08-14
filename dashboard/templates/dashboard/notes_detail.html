@@ -1,0 +1,31 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block content %}
+
+<section class="container mx-auto px-4 sm:px-6 py-6 sm:py-10 bg-gradient-to-r from-purple-50 via-indigo-50 to-blue-50 rounded-lg shadow-md">
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-300">
+        <div class="p-4 sm:p-6 md:p-8">
+            <!-- Title -->
+            <div class="mb-4 sm:mb-6">
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight mb-2 sm:mb-4">
+                    {{ notes.title }}
+                </h2>
+            </div>
+
+            <div class="relative mb-4 sm:mb-6 md:mb-8">
+                <hr class="absolute inset-0 mx-auto border-t border-gray-300 opacity-50" style="top: 50%; width: 100%; max-width: 80%; transform: translateY(-50%);">
+            </div>
+
+            <!-- Description -->
+            <p class="text-gray-700 text-base sm:text-lg leading-relaxed">
+                {{ notes.desription }}
+            </p>
+
+            <div class="relative mt-4 sm:mt-6 md:mt-8">
+                <hr class="absolute inset-0 mx-auto border-t border-gray-300 opacity-50" style="top: 50%; width: 100%; max-width: 80%; transform: translateY(-50%);">
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

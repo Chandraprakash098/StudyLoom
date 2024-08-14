@@ -1,0 +1,26 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block content %}
+<div class="pt-20 px-4 md:px-8 lg:px-16"> <!-- Adjusted padding for responsiveness -->
+    <div class="text-center mb-12">
+        <h2 class="text-4xl font-extrabold text-gray-900 mb-6">Unleash Your Learning Potential</h2>
+        <p class="text-lg text-gray-900 mb-8">Explore innovative resources and personalized tools designed to elevate your study experience.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {% for item in items %}
+            <div class="bg-white overflow-hidden shadow-lg rounded-lg transition-transform duration-300 ease-in-out transform hover:scale-105">
+                <img class="h-48 w-full object-cover" src="{% static item.image %}" alt="{{ item.name }}">
+                <div class="p-5">
+                    <h3 class="text-xl font-semibold text-gray-900">{{ item.name }}</h3>
+                    <p class="mt-2 text-sm text-gray-600">{{ item.description }}</p>
+                </div>
+                <div class="bg-gray-50 px-5 py-3">
+                    <a href="{{ item.url }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                        {{ item.name }} <span aria-hidden="true">&rarr;</span>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

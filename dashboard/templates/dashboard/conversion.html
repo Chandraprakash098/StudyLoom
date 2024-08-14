@@ -1,0 +1,62 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mx-auto p-4 text-center">
+    <h2 class="text-3xl font-bold mb-4">Unit and Currency Converter</h2>
+    <p class="text-lg mb-4">Select the conversion type and enter the value to convert.</p>
+
+    <form method="POST" class="space-y-4">
+        {% csrf_token %}
+
+        <!-- Conversion Type Selector -->
+        <div class="form-group">
+            <label for="conversion_type" class="block text-lg font-semibold mb-2">Select Conversion Type:</label>
+            <select id="conversion_type" name="conversion_type" class="border border-gray-300 p-2 rounded-lg w-full max-w-md">
+                <!-- Unit Conversions -->
+                <option value="cm_to_m">Centimeters to Meters</option>
+                <option value="m_to_cm">Meters to Centimeters</option>
+                <option value="kg_to_g">Kilograms to Grams</option>
+                <option value="g_to_kg">Grams to Kilograms</option>
+                <option value="l_to_ml">Liters to Milliliters</option>
+                <option value="ml_to_l">Milliliters to Liters</option>
+                <option value="f_to_c">Fahrenheit to Celsius</option>
+                <option value="c_to_f">Celsius to Fahrenheit</option>
+                <option value="mi_to_km">Miles to Kilometers</option>
+                <option value="km_to_mi">Kilometers to Miles</option>
+                <!-- Currency Conversions -->
+                <option value="inr_to_usd">Indian Rupees to US Dollars</option>
+                <option value="usd_to_inr">US Dollars to Indian Rupees</option>
+                <option value="eur_to_usd">Euros to US Dollars</option>
+                <option value="usd_to_eur">US Dollars to Euros</option>
+                <option value="gbp_to_usd">British Pounds to US Dollars</option>
+                <option value="usd_to_gbp">US Dollars to British Pounds</option>
+                <option value="jpy_to_usd">Japanese Yen to US Dollars</option>
+                <option value="usd_to_jpy">US Dollars to Japanese Yen</option>
+                <option value="aud_to_usd">Australian Dollars to US Dollars</option>
+                <option value="usd_to_aud">US Dollars to Australian Dollars</option>
+                <option value="cad_to_usd">Canadian Dollars to US Dollars</option>
+                <option value="usd_to_cad">US Dollars to Canadian Dollars</option>
+                <!-- Add more conversion options as needed -->
+            </select>
+        </div>
+
+        <!-- Input Value -->
+        <div class="form-group">
+            <label for="input_value" class="block text-lg font-semibold mb-2">Enter Value:</label>
+            <input type="number" id="input_value" name="input_value" placeholder="Enter value..." class="border border-gray-300 p-2 rounded-lg w-full max-w-md" required step="any">
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
+            Convert
+        </button>
+    </form>
+
+    {% if result %}
+        <div class="mt-8 p-4 bg-gray-100 rounded-lg shadow-md">
+            <h3 class="text-2xl font-semibold mb-2">Conversion Result:</h3>
+            <p class="text-lg">{{ result }}</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock content %}
